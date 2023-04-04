@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/logos/favicon/favicon.ico') }}" >
+    {% block styles %} {% endblock %}
+</head>
+<body>
+    <header class="page-header">
+        <div class="mobile-nav" id="mobile-header">
+            <div class="header-wrapper-top">
+                <div class="mobile-header-left">
+                    <button class="btn menu-btn">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+                <div class="mobile-header-middle">
+                    <a href="{{ url_for('main.home') }}">
+                        <img class="logo" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}">
+                    </a>
+                </div>
+                <div class="mobile-header-right">
+                    <button class="btn cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="badge badge-green" id="cart-count">0</span>
+                    </button>
+                    <button class="btn btn-account">
+                        <i class="fa-regular fa-circle-user"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="header-wrapper-bottom">
+                <form class="search-form" action="{{ url_for('main.search') }}">
+                    <button class="btn search-btn" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <input type="search" class="search-bar" placeholder="Search..." name="query">
+                </form>
+            </div>
+        </div>
+    </header>
+    <main class="page-content">
+
+    </main>
+    <footer class="page-footer">
+
+    </footer>
+    <script src="https://kit.fontawesome.com/84fbcb74c2.js" crossorigin="anonymous"></script>
+    {% block scripts %} {% endblock %}
+</body>
+</html>
