@@ -1,12 +1,10 @@
-from flask import Flask
+import os
 
-app = Flask(__name__, "templates")
+from oasis_nourish import create_app, db
 
-
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
 
-if __name__ == '__main__':
-    app.run()
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db)
