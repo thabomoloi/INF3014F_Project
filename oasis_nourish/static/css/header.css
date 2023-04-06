@@ -1,0 +1,32 @@
+header.page-header div.header-wrapper-top img.logo {
+    max-height: 2.25em;
+}
+header.page-header div.header-wrapper-bottom {
+    background-color: #288239;
+}
+header.page-header button.btn {
+    font-size: 1.3125em;
+}
+header.page-header div.mobile-header-right .cart-btn {
+    position: relative;
+}
+
+span.badge.badge-green {
+    background: darkgreen;
+    border-radius: 50%;
+    font-size: 0.5em;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+header.page-header input[type="search"] {
+    padding-left: 2em;
+    padding-right: 3.5em;
+    border-radius: 2.5em;
+    font-family: Roboto, sans-serif;
+}
+header.page-header button[type="submit"].search-btn {
+    margin-left: -3em;
+    font-size: 1.125em;
+}
