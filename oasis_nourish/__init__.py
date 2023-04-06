@@ -6,6 +6,8 @@ from config import config
 mail = Mail()
 db = SQLAlchemy()
 
+from .models import Role, User
+
 
 def create_app(config_name):
     app = Flask(__name__)

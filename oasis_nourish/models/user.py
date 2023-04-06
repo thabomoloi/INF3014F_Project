@@ -9,8 +9,8 @@ class User(db.Model):
     first_name = db.Column(db.String(128), nullable=False)
     last_name = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False, index=True)
-    role_id = db.Colum(db.Integer, db.ForeignKey('roles.id'))
-    
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
     def __repr__(self):
         return '<User %r>' % self.email
 
