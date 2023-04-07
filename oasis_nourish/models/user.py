@@ -1,9 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
-from .. import db
+from flask_login import UserMixin, AnonymousUserMixin
+from .. import db, login_manager
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask import current_app
-
+from .role import Role
+from .permissions import Permission
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -14,6 +15,14 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __int__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['OASIS_NOURISH_ADMIN']:
+                self.role = Role.query.filter_by(name='Administrator').first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first()
 
     def __repr__(self):
         return '<User %r>' % self.email
@@ -49,3 +58,20 @@ class User(UserMixin, db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
+
+    def can(self, perm):
+        return self.role is not None and self.role.has_permissions(perm)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, perm):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user = AnonymousUser
