@@ -3,4 +3,3 @@ class Permission:
     REVIEW = 2
     MODERATE = 4
     ADMIN = 8
-    
