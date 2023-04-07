@@ -1,6 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .. import db
+from itsdangerous import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -10,7 +12,11 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128))
+    confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return '<User %r>' % self.email
 
     @property
     def password(self):
@@ -23,5 +29,23 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return '<User %r>' % self.email
+    def generate_confirmation_token(self):
+        serializer = Serializer(current_app.config['SECRET_KEY'])
+        return serializer.dumps({'confirm': self.id}).decode('utf-8')
+
+    def confirm(self, token, expiration=3600):
+        serializer = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = serializer.loads(
+                token.encode('utf-8'),
+                max_age=expiration
+            )
+        except:
+            return False
+
+        if data.get('confirm') != self.id:
+            return False
+
+        self.confirmed = True
+        db.session.add(self)
+        return True
