@@ -5,7 +5,7 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    default = db.Column(db.Boolean, defualt=False, index=True)
+    default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.String)
     users = db.relationship('User', backref='role', lazy='dynamic')
 
@@ -47,6 +47,6 @@ class Role(db.Model):
     def reset_permissions(self):
         self.permissions = 0
 
-    def has_permissions(self, perm):
+    def has_permission(self, perm):
         return self.permissions & perm == perm
 
