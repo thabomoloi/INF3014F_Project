@@ -5,7 +5,7 @@ from ..forms import LoginForm
 from oasis_nourish.models import User
 
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -16,4 +16,4 @@ def login():
             if next_url is None or next_url.startswith('/'):
                 next_url = url_for('main.index')
             return redirect(next_url)
-    return render_template('auth/login.html')
+    return render_template('auth/login.html', form=form)
