@@ -14,6 +14,8 @@ def login():
             login_user(user, form.remember_me.data)
             next_url = request.args.get('next')
             if next_url is None or next_url.startswith('/'):
-                next_url = url_for('main.index')
+                next_url = url_for('main.home')
             return redirect(next_url)
+        else:
+            flash("Invalid login", "error")
     return render_template('auth/login.html', form=form)
