@@ -1,5 +1,5 @@
 import unittest
-from oasis_nourish import User
+from oasis_nourish.models import User, AnonymousUser, Permission
 
 
 class UserModelTestCase(unittest.TestCase):
@@ -21,3 +21,17 @@ class UserModelTestCase(unittest.TestCase):
         u = User(password='cat')
         u2 = User(password='cat')
         self.assertTrue(u.password_hash != u2.password_hash)
+
+    def test_user_role(self):
+        u = User(email='john@doe.com', password='cat')
+        self.assertTrue(u.can(Permission.CHECKOUT))
+        self.assertTrue(u.can(Permission.REVIEW))
+        self.assertFalse(u.can(Permission.MODERATE))
+        self.assertFalse(u.can(Permission.ADMIN))
+
+    def test_anonymous_user(self):
+        u = AnonymousUser()
+        self.assertFalse(u.can(Permission.CHECKOUT))
+        self.assertFalse(u.can(Permission.REVIEW))
+        self.assertFalse(u.can(Permission.MODERATE))
+        self.assertFalse(u.can(Permission.ADMIN))
