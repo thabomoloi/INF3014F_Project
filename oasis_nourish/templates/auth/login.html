@@ -6,13 +6,31 @@
         header {
             display: none;
         }
+        footer {
+            display: none;
+        }
         body#body {
             background-image: url("{{ url_for('static', filename='images/amoon-ra-oWN1tKuUpJI-unsplash.jpg') }}");
             background-size: cover;
             background-position: center center;
+            animation: 15s background-image-change infinite alternate;
         }
-        footer {
-            display: none;
+        @keyframes background-image-change {
+            0% {
+                background-image: url("{{ url_for('static', filename='images/background/amoon-ra-oWN1tKuUpJI-unsplash.jpg') }}");
+            }
+            25% {
+                background-image: url("{{ url_for('static', filename='images/background/anna-pelzer-IGfIGP5ONV0-unsplash.jpg') }}");
+            }
+            50% {
+                background-image: url("{{ url_for('static', filename='images/background/dan-gold-4_jhDO54BYg-unsplash.jpg') }}");
+            }
+            75% {
+                background-image: url("{{ url_for('static', filename='images/background/lum3n-5GK0KjhBLs4-unsplash.jpg') }}");
+            }
+            100% {
+                background-image: url("{{ url_for('static', filename='images/background/tamanna-rumee-nswz6tIpgZk-unsplash.jpg') }}");
+            }
         }
     </style>
 {% endblock %}
