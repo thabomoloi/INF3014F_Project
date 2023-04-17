@@ -10,13 +10,13 @@ from oasis_nourish.email import send_email
 @login_required
 def confirm(token):
     if current_user.confirmed:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.home'))
     if current_user.confirm(token):
         db.session.commit()
         flash('You have confirmed your account. Thanks!')
     else:
         flash('The confirmation link is invalid or has expired.')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.home'))
 
 
 @auth.before_app_request
