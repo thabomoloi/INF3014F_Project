@@ -18,4 +18,4 @@ def login():
             return redirect(next_url)
         else:
             flash("Invalid login", "error")
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form, title='Login | Oasis Nourish')
