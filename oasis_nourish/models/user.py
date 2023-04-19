@@ -6,6 +6,7 @@ from flask import current_app
 from .role import Role
 from .permissions import Permission
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -16,6 +17,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    addresses = db.relationship('Address', backref='role', lazy='dynamic')
 
     def __int__(self, **kwargs):
         super(User, self).__init__(**kwargs)
