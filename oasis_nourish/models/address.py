@@ -8,6 +8,7 @@ class Address(db.Model):
     street = db.Column(db.String(64))
     suburb = db.Column(db.String(64))
     city = db.Column(db.String(64))
+    province = db.Column(db.String(64))
     postal_code = db.Column(db.String(4))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
