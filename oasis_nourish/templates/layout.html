@@ -15,6 +15,7 @@
             text-decoration: none;
             color: black;
         }
+
     </style>
     {% block styles %}
 
@@ -25,7 +26,7 @@
         <div class="mobile-nav header-wrapper" id="mobile-header">
             <div class="header-wrapper-top px-1 py-2 d-flex align-items-center justify-content-between">
                 <div class="mobile-header-left">
-                    <button class="btn menu-btn">
+                    <button id="main-menu-btn" class="btn menu-btn">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
@@ -75,11 +76,11 @@
                         </div>
                     </nav>
                 </div>
-                <div class="p-3 mt-auto bg-white">
+                <div class="px-4 py-3 mt-auto bg-white d-flex justify-content-between align-items-center flex-nowrap">
                     <!-- To Check If Current User IS Authenticated -->
                     {% if current_user.is_authenticated %}
-                        <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('account.dashboard') }}'">
-                             Login
+                        <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('account.dashboard') }}'" style="max-width: 7.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                             <i class="fa-solid fa-circle-user"></i> {{ current_user.first_name }}
                         </button>
                         <button class="btn fw-bold" onclick="window.location='{{ url_for('auth.logout') }}'">
                             <i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -102,10 +103,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
     <script>
+        // Select html elements
         const closeMobileMenu = document.querySelector("#close-mobile-menu");
-        if (closeMobileMenu) {
-            const mobileMenu = document.querySelector(".mobile-menus");
-            if (mobileMenu) {
+        const openMainMenu = document.querySelector("#main-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menus");
+
+
+        if (mobileMenu) {
+            // Close mobile main menu
+            if (closeMobileMenu) {
                 closeMobileMenu.addEventListener('click', ()=>{
                     mobileMenu.style.display = "none";
                 });
@@ -113,9 +119,16 @@
                     if (e.target === mobileMenu) {
                         mobileMenu.style.display = "none";
                     }
-                })
+                });
+            }
+            // Open main menu
+            if (openMainMenu) {
+                openMainMenu.addEventListener('click', ()=> {
+                   mobileMenu.style.display = "block";
+                });
             }
         }
+
     </script>
     {% block scripts %} {% endblock %}
 </body>
