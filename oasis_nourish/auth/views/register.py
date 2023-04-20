@@ -1,3 +1,4 @@
+from flask_login import current_user
 from ..forms import RegistrationForm
 from oasis_nourish import db
 from flask import render_template, redirect, url_for, flash
@@ -8,6 +9,10 @@ from oasis_nourish.email import send_email
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        flash('You are already logged', 'info')
+        return redirect(url_for('account.details'))
+
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(
