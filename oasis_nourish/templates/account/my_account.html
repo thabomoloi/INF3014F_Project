@@ -6,52 +6,65 @@
 <div>
 
     <div class="details-content container py-3">
-        <div class="side-detail-menu">
-
-        </div>
-        <div class="content">
-            <h2 class="mb-4">My Account</h2>
-            <div class="mb-4">
-                <h4 class="fw-normal border-bottom border-1 pb-2">Account Information</h4>
-                <div>
+        <div class="d-block d-md-flex flex-nowrap gap-5">
+            <div class="side-detail-menu d-none d-md-block py-1">
+                <nav class="list-group">
+                    <div class="list-group">
+                        <a href="{{ url_for('account.details') }}" class="list-group-item list-group-item-action text-white" style="background: var(--theme-green)" aria-current="true">
+                            My Account
+                        </a>
+                        <a href="{{ url_for('account.address') }}" class="list-group-item list-group-item-action" >
+                            Address Book
+                        </a>
+                        <a href="{{ url_for('account.orders') }}" class="list-group-item list-group-item-action">Orders</a>
+                        <a href="{{ url_for('account.cards') }}" class="list-group-item list-group-item-action">Credit Cards</a>
+                    </div>
+                </nav>
+            </div>
+            <div class="content">
+                <h2 class="mb-4">My Account</h2>
+                <div class="mb-4">
+                    <h4 class="fw-normal border-bottom border-1 pb-2">Account Information</h4>
                     <div>
                         <div>
-                            <div class="d-flex align-items-end gap-5 flex-nowrap mb-2">
-                                <div>
-                                    {{ current_user.first_name }} {{ current_user.last_name }}<br>
-                                    {{ current_user.phone }}<br>
-                                    {{ current_user.email }}
-                                </div>
-                                <div class="d-flex flex-column flex-nowrap">
-                                    <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-details-btn"
-                                          class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;">Change Details</span>
-                                    <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-email-btn"
-                                          class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;">Update Email</span>
-                                </div>
-                            </div>
                             <div>
-                                <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-password-btn"
-                                      class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;"><i class="fa-solid fa-lock me-1"></i> Change Password</span>
+                                <div class="d-flex align-items-end gap-5 flex-nowrap mb-2">
+                                    <div>
+                                        {{ current_user.first_name }} {{ current_user.last_name }}<br>
+                                        {{ current_user.phone }}<br>
+                                        {{ current_user.email }}
+                                    </div>
+                                    <div class="d-flex flex-column flex-nowrap">
+                                        <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-details-btn"
+                                              class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;">Change Details</span>
+                                        <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-email-btn"
+                                              class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;">Update Email</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-password-btn"
+                                          class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;"><i class="fa-solid fa-lock me-1"></i> Change Password</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mb-4">
-                <h4 class="fw-normal border-bottom border-1 pb-2">Addresses</h4>
-                <div>
-                    <h5>Delivery Address</h5>
+                <div class="mb-4">
+                    <h4 class="fw-normal border-bottom border-1 pb-2">Addresses</h4>
                     <div>
-                        {% with address = Address.query.filter_by(user_id=current_user.id).first() %}
-                            {% if address is none %}
-                                You have no delivery address yet. <a class="fw-bold" href="{{ url_for("account.address") }}" style="color: var(--theme-cyan); cursor: pointer;">Add new address.</a>
-                            {% else %}
-                                {{ address.street }}<br>
-                                {{ address.suburb }}<br>
-                                {{ address.city }}<br>
-                                {{ address.postal_code }}<br>
-                            {% endif %}
-                        {% endwith %}
+                        <h5>Delivery Address</h5>
+                        <div>
+                            {% with address = Address.query.filter_by(user_id=current_user.id).first() %}
+                                {% if address is none %}
+                                    You have no delivery address yet. <a class="fw-bold" href="{{ url_for("account.address") }}" style="color: var(--theme-cyan); cursor: pointer;">Add new address.</a>
+                                {% else %}
+                                    {{ address.street }}<br>
+                                    {{ address.suburb }}<br>
+                                    {{ address.city }}<br>
+                                    {{ address.postal_code }}<br>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
                     </div>
                 </div>
             </div>
