@@ -6,6 +6,7 @@ from ..forms import EditPersonalDetailsForm, EditEmailForm, ChangePasswordForm
 from oasis_nourish import db
 from oasis_nourish.models import Address
 
+
 @account.route("/details", methods=['GET', 'POST'])
 @login_required
 def details():
