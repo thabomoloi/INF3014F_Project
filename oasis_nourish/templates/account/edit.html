@@ -1,4 +1,43 @@
 {% extends "layout.html" %}
-{% block page_content %}
+{% from 'bootstrap5/form.html' import render_form, render_field %}
 
+
+{% block page_content %}
+<div>
+    <div class="container">
+        <div class="row">
+            <form class="bg-white p-4 p-sm-5" method="post">
+                <div class="pb-2">
+                    <h3>Details</h3>
+                </div>
+                {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                    {% if errors %}
+                        {% for msg in errors %}
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ msg }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {{ personal_form.csrf_token() }}
+
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ render_field(personal_form.first_name, value=current_user.first_name) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ render_field(personal_form.last_name, value=current_user.last_name) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ render_field(personal_form.phone, placeholder="0123456789", value=current_user.phone) }}
+                    </div>
+                </div>
+                <div class="pt-1 mb-3">
+                    {{ render_field(personal_form.submit, class='btn') }}
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 {% endblock %}
