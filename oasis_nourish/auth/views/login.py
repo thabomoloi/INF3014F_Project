@@ -12,8 +12,8 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            next_url = request.form.get('next')
-            if next_url is None or next_url.startswith('/'):
+            next_url = request.args.get('next')
+            if next_url is None:
                 next_url = url_for('main.home')
             return redirect(next_url)
         else:
