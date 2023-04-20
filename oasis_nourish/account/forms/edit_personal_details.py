@@ -23,3 +23,18 @@ class EditPersonalDetailsForm(FlaskForm):
                 raise ValueError()
         except (phonenumbers.phonenumberutil.NumberParseException, ValueError):
             raise ValidationError('Invalid phone number')
+
+
+class EditEmailForm(FlaskForm):
+    email = EmailField('Email', validators=[Email(), DataRequired(), Length(min=1, max=64)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField("Update Email")
+
+
+class ChangePasswordForm(FlaskForm):
+    password = PasswordField('Current password', validators=[DataRequired()])
+    new_password = PasswordField('New password', validators=[
+        DataRequired(), EqualTo('new_password2', message='Passwords must match'), Length(8, 16)
+    ])
+    new_password2 = PasswordField('Confirm new password', validators=[DataRequired()])
+    submit = SubmitField('Change password')

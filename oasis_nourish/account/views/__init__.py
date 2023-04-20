@@ -1,2 +1,2 @@
 from .dashboard import dashboard
-from .edit import edit
+from .details import details
