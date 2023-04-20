@@ -49,47 +49,54 @@
         </div>
     </header>
     <main class="page-content">
-        <div class="mobile-menus vh-100 position-absolute top-0 w-100" style="background-color: rgba(0, 0, 0, 0.5); z-index: 10">
-            <div class="menu nav-menu primary-menu vh-100 bg-body-secondary position-absolute" style="display: grid; width: 20em; grid-template-rows: auto 1fr auto;">
-                <div class="menu-header bg-white shadow-sm position-relative p-3 pb-2 mb-5">
-                    <img class="logo" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
-                    <button id="close-primary-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; right: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-
+        <div class="mobile-menus min-vh-100 position-absolute top-0 bottom-0 w-100" style="display: none; background-color: rgba(0, 0, 0, 0.5); z-index: 10">
+            <div class="menu nav-menu primary-menu vh-100 bg-body-secondary position-absolute overflow-y-auto" style="display: none; width: 20em; grid-template-rows: auto 1fr auto;">
+                <div class="menu-header bg-white shadow-sm p-3 pb-2 mb-5 d-flex justify-content-between align-items-center">
+                        <img class="logo" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
+                        <button id="close-primary-menu" class="btn rounded-5 p-0 m-0 shadow"
+                                style="color: #fff; background-color: var(--theme-green); font-size: 1.25em; width:1.5em; height:1.5em;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 <div class="menu-links bg-body-secondary">
-                    <nav class="navigation-menu">
-                        <div class="py-3 px-4 mb-5 d-flex flex-column flex-nowrap bg-white">
-                            <a href="{{ url_for('main.home') }}" class="border-bottom border-1 pb-2">Home</a>
-                            <a id="menu-item-products"  style="cursor: pointer;" class="d-flex align-items-center justify-content-between flex-nowrap border-bottom border-1 py-2"><span>Products</span> <i class="fa-solid fa-arrow-right"></i></a>
-                            <a href="" class="pt-2">Specials</a>
-                        </div>
-                        <div class="py-3 px-4 mb-5 d-flex flex-column flex-nowrap bg-white">
-                            <a href="" class="border-bottom border-1 pb-2">Orders</a>
-                            <a href="" class="pt-2">Track My Order</a>
-                        </div>
-                    </nav>
-                </div>
+                        <nav class="navigation-menu">
+                            <div class="py-3 px-4 mb-5 d-flex flex-column flex-nowrap bg-white">
+                                <a href="{{ url_for('main.home') }}" class="border-bottom border-1 pb-2">Home</a>
+                                <a id="menu-item-products"  style="cursor: pointer;" class="d-flex align-items-center justify-content-between flex-nowrap border-bottom border-1 py-2"><span>Products</span> <i class="fa-solid fa-arrow-right"></i></a>
+                                <a href="" class="pt-2">Specials</a>
+                            </div>
+                            <div class="py-3 px-4 mb-5 d-flex flex-column flex-nowrap bg-white">
+                                <a href="" class="border-bottom border-1 pb-2">Orders</a>
+                                <a href="" class="pt-2">Track My Order</a>
+                            </div>
+                        </nav>
+                    </div>
                 <div class="px-4 py-3 mt-auto bg-white d-flex justify-content-between align-items-center flex-nowrap">
-                    {% if current_user.is_authenticated %}
-                        <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('account.dashboard') }}'" style="max-width: 7.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                             <i class="fa-solid fa-circle-user"></i> {{ current_user.first_name }}
-                        </button>
-                        <button class="btn fw-bold text-primary" onclick="window.location='{{ url_for('auth.logout') }}'">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
-                        </button>
-                    {% else %}
-                        <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('auth.login') }}'">
-                            <i class="fa-solid fa-right-to-bracket"></i> Login
-                        </button>
-                        <button class="btn fw-bold" onclick="window.location='{{ url_for('auth.register') }}'">Register</button>
-                    {% endif %}
-                </div>
+                        {% if current_user.is_authenticated %}
+                            <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('account.dashboard') }}'" style="max-width: 7.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                 <i class="fa-solid fa-circle-user"></i> {{ current_user.first_name }}
+                            </button>
+                            <button class="btn fw-bold text-primary" onclick="window.location='{{ url_for('auth.logout') }}'">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </button>
+                        {% else %}
+                            <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('auth.login') }}'">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login
+                            </button>
+                            <button class="btn fw-bold text-primary" onclick="window.location='{{ url_for('auth.register') }}'">Register</button>
+                        {% endif %}
+                    </div>
             </div>
-            <div class="menu nav-menu account-menu bg-white vh-100 position-absolute" style="right: 0; display: grid; width: 20em; grid-template-rows: auto 1fr">
+            <div class="menu nav-menu account-menu bg-white vh-100 position-absolute overflow-y-auto" style="right: 0; display: none; width: 20em; grid-template-rows: auto 1fr">
                 {% if current_user.is_authenticated %}
                     <div class="menu-header bg-white shadow-sm position-relative p-3 pb-2 mb-2">
-                        <img class="logo mb-1" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
-                        <button id="close-account-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; left: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img class="logo mb-1" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
+                            <button id="close-account-menu" class="btn rounded-5 p-0 m-0 shadow"
+                                    style="color: #fff; background-color: var(--theme-green); font-size: 1.25em; width:1.5em; height:1.5em;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
                         <div class="px-2">
                             Welcome {{ current_user.first_name }}
                         </div>
@@ -108,32 +115,37 @@
                     </div>
                 {% else %}
                     <div class="menu-header bg-white shadow-sm position-relative p-3 pb-2 mb-2">
-                        <img class="logo mb-1" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
-                        <button id="close-mobile-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; left: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img class="logo mb-1" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
+                            <button id="close-account-menu" class="btn rounded-5 p-0 m-0 shadow"
+                                    style="color: #fff; background-color: var(--theme-green); font-size: 1.25em; width:1.5em; height:1.5em;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
                         <div class="px-2">
                             Welcome to Oasis.
                         </div>
                     </div>
-                    <div class="px-4 py-3 border-bottom border-1 mb-2">
-                        <strong>I have an account</strong>
-                        <p>Fill in your email and password to access your account.</p>
-                        <button class="btn btn-primary rounded px-4 w-100 fw-bold" onclick="window.location='{{ url_for('auth.login') }}'">
-                            <i class="fa-solid fa-right-to-bracket"></i> Login
-                        </button>
-                    </div>
-                    <div class="px-4 py-3">
-                        By creating an account with Oasis Nourish, you will be able to:
-                        <ul>
-                            <li>Checkout faster!</li>
-                            <li>View and tract your order</li>
-                            <li>Add multiple addresses</li>
-                            <li>Earn rewards</li>
-                        </ul>
-                        <button class="btn fw-bold border border-2 border-primary text-primary w-100" onclick="window.location='{{ url_for('auth.register') }}'">Register</button>
+                    <div>
+                        <div class="px-4 py-3 border-bottom border-1 mb-2">
+                            <strong>I have an account</strong>
+                            <p>Fill in your email and password to access your account.</p>
+                            <button class="btn btn-primary rounded px-4 w-100 fw-bold" onclick="window.location='{{ url_for('auth.login') }}'">
+                                <i class="fa-solid fa-right-to-bracket"></i> Login
+                            </button>
+                        </div>
+                        <div class="px-4 py-3">
+                            By creating an account with Oasis Nourish, you will be able to:
+                            <ul>
+                                <li>Checkout faster!</li>
+                                <li>View and tract your order</li>
+                                <li>Add multiple addresses</li>
+                                <li>Earn rewards</li>
+                            </ul>
+                            <button class="btn fw-bold border border-2 border-primary text-primary w-100" onclick="window.location='{{ url_for('auth.register') }}'">Register</button>
+                        </div>
                     </div>
                 {% endif %}
-
-
             </div>
         </div>
         {% block page_content %} {% endblock %}
