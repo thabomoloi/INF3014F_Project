@@ -10,13 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <style>
-        main.page-content nav.navigation-menu a {
-            text-decoration: none;
-            color: black;
-        }
-
-    </style>
     {% block styles %}
 
     {% endblock %}
@@ -40,7 +33,7 @@
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="badge badge-green" id="cart-count">0</span>
                     </button>
-                    <button class="btn btn-account">
+                    <button class="btn btn-account" id="open-account-menu">
                         <i class="fa-regular fa-circle-user"></i>
                     </button>
                 </div>
@@ -57,10 +50,10 @@
     </header>
     <main class="page-content">
         <div class="mobile-menus vh-100 position-absolute top-0 w-100" style="background-color: rgba(0, 0, 0, 0.5); z-index: 10">
-            <div class="nav-menu primary-menu vh-100 d-grid bg-body-secondary" style="width: 17.5em; grid-template-rows: auto 1fr auto;">
+            <div class="menu nav-menu primary-menu vh-100 bg-body-secondary position-absolute" style="display: grid; width: 20em; grid-template-rows: auto 1fr auto;">
                 <div class="menu-header bg-white shadow-sm position-relative p-3 pb-2 mb-5">
                     <img class="logo" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
-                    <button id="close-mobile-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; right: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
+                    <button id="close-primary-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; right: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <div class="menu-links bg-body-secondary">
@@ -77,12 +70,11 @@
                     </nav>
                 </div>
                 <div class="px-4 py-3 mt-auto bg-white d-flex justify-content-between align-items-center flex-nowrap">
-                    <!-- To Check If Current User IS Authenticated -->
                     {% if current_user.is_authenticated %}
                         <button class="btn btn-primary rounded-5 px-4 fw-bold" onclick="window.location='{{ url_for('account.dashboard') }}'" style="max-width: 7.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                              <i class="fa-solid fa-circle-user"></i> {{ current_user.first_name }}
                         </button>
-                        <button class="btn fw-bold" onclick="window.location='{{ url_for('auth.logout') }}'">
+                        <button class="btn fw-bold text-primary" onclick="window.location='{{ url_for('auth.logout') }}'">
                             <i class="fa-solid fa-right-from-bracket"></i> Logout
                         </button>
                     {% else %}
@@ -92,6 +84,56 @@
                         <button class="btn fw-bold" onclick="window.location='{{ url_for('auth.register') }}'">Register</button>
                     {% endif %}
                 </div>
+            </div>
+            <div class="menu nav-menu account-menu bg-white vh-100 position-absolute" style="right: 0; display: grid; width: 20em; grid-template-rows: auto 1fr">
+                {% if current_user.is_authenticated %}
+                    <div class="menu-header bg-white shadow-sm position-relative p-3 pb-2 mb-2">
+                        <img class="logo mb-1" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
+                        <button id="close-account-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; left: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="px-2">
+                            Welcome {{ current_user.first_name }}
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 border-bottom border-1 mb-2">
+                        <nav class="navigation-menu d-flex flex-column mb-5">
+                            <a href="{{ url_for('account.dashboard') }}" class="border-bottom border-1 pb-2">My Account</a>
+                            <a href="" class="border-bottom border-1 py-2">Orders</a>
+                            <a href="" class="border-bottom border-1 py-2">Address Book</a>
+                            <a href="" class="border-bottom border-1 py-2">Credit Cards</a>
+                            <a href="" class="pt-2">Update Account Information</a>
+                        </nav>
+                        <button class="btn fw-bold text-primary w-100 border-primary border border-2" onclick="window.location='{{ url_for('auth.logout') }}'">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="menu-header bg-white shadow-sm position-relative p-3 pb-2 mb-2">
+                        <img class="logo mb-1" src="{{ url_for('static',  filename='images/logos/oasis_nourish_logo.png') }}" style="width: 10em;">
+                        <button id="close-mobile-menu" class="btn position-absolute" style="color: #fff; font-size: 1.5em; left: -2em; top: -0.25em;"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="px-2">
+                            Welcome to Oasis.
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 border-bottom border-1 mb-2">
+                        <strong>I have an account</strong>
+                        <p>Fill in your email and password to access your account.</p>
+                        <button class="btn btn-primary rounded px-4 w-100 fw-bold" onclick="window.location='{{ url_for('auth.login') }}'">
+                            <i class="fa-solid fa-right-to-bracket"></i> Login
+                        </button>
+                    </div>
+                    <div class="px-4 py-3">
+                        By creating an account with Oasis Nourish, you will be able to:
+                        <ul>
+                            <li>Checkout faster!</li>
+                            <li>View and tract your order</li>
+                            <li>Add multiple addresses</li>
+                            <li>Earn rewards</li>
+                        </ul>
+                        <button class="btn fw-bold border border-2 border-primary text-primary w-100" onclick="window.location='{{ url_for('auth.register') }}'">Register</button>
+                    </div>
+                {% endif %}
+
+
             </div>
         </div>
         {% block page_content %} {% endblock %}
@@ -104,29 +146,58 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
     <script>
         // Select html elements
-        const closeMobileMenu = document.querySelector("#close-mobile-menu");
-        const openMainMenu = document.querySelector("#main-menu-btn");
-        const mobileMenu = document.querySelector(".mobile-menus");
+        const closePrimaryMenuBtn = document.querySelector("#close-primary-menu");
+        const closeAccountMenuBtn = document.querySelector("#close-account-menu");
 
+        const openMainMenuBtn = document.querySelector("#main-menu-btn");
+        const openAccountMenuBtn = document.querySelector("#open-account-menu");
+
+        const mainMenu = document.querySelector(".primary-menu");
+        const accountMenu = document.querySelector(".account-menu");
+        const mobileMenu = document.querySelector(".mobile-menus");
+        const allMenus = document.querySelectorAll(".mobile-menus .menu")
+
+        // functions
+        /**
+         * Closes a menu
+         * @param menu menu to close
+         */
+        function closeMenu(menu) {
+            menu.style.display = 'none';
+        }
+
+        /**
+         * Opens a menu
+         * @param menu menu to open
+         * @param submenu
+         */
+        function showMenu(menu, submenu) {
+            menu.style.display = 'block';
+            submenu.style.display = 'grid';
+        }
+
+        /**
+         * Closes all open menu
+         */
+        function closeAllMenu() {
+            closeMenu(mobileMenu);
+            allMenus.forEach(item => item.style.display = "none");
+        }
 
         if (mobileMenu) {
-            // Close mobile main menu
-            if (closeMobileMenu) {
-                closeMobileMenu.addEventListener('click', ()=>{
-                    mobileMenu.style.display = "none";
-                });
-                window.addEventListener('click', (e)=>{
-                    if (e.target === mobileMenu) {
-                        mobileMenu.style.display = "none";
-                    }
-                });
-            }
-            // Open main menu
-            if (openMainMenu) {
-                openMainMenu.addEventListener('click', ()=> {
-                   mobileMenu.style.display = "block";
-                });
-            }
+            // Close mobile main menu on click
+            window.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) closeAllMenu();
+            });
+
+            // Closing menu using buttons
+            if (closePrimaryMenuBtn) closePrimaryMenuBtn.addEventListener('click', closeAllMenu);
+            if (closeAccountMenuBtn) closeAccountMenuBtn.addEventListener('click', closeAllMenu);
+
+            // Open main menu on click
+            if (openMainMenuBtn) openMainMenuBtn.addEventListener('click', ()=> { showMenu(mobileMenu, mainMenu)});
+            if (openAccountMenuBtn) openAccountMenuBtn.addEventListener('click', ()=> { showMenu(mobileMenu, accountMenu)});
+
         }
 
     </script>
