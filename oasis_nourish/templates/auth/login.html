@@ -15,6 +15,9 @@
             background-position: center center;
             animation: 15s background-image-change infinite alternate;
         }
+        main div.container.alerts {
+            display: none;
+        }
         @keyframes background-image-change {
             0% {
                 background-image: url("{{ url_for('static', filename='images/background/amoon-ra-oWN1tKuUpJI-unsplash.jpg') }}");
@@ -36,11 +39,11 @@
 {% endblock %}
 
 {% block page_content %}
-    <div id="intro" class="bg-image bg-black bg-opacity-25 vh-100 ">
+    <div id="intro" class="bg-image bg-black bg-opacity-25 vh-100 overflow-y-auto">
         <div class="mask d-flex align-items-center h-100 align-self-center" style="">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-xl-5 col-md-8">
+                    <div class="col-xl-5 col-md-8 my-4">
                         <form class="bg-white rounded-5 shadow p-4 p-sm-5" method="post">
                             <div class="text-center pb-2">
                                 <img src="{{ url_for('static', filename='images/logos/oasis_nourish_logo.png')}}" alt="Oasis nourish logo" class="w-50">
