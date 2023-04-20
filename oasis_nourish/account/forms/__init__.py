@@ -1,1 +1,1 @@
-from .edit_personal_details import EditPersonalDetailsForm
+from .edit_personal_details import EditPersonalDetailsForm, EditEmailForm, ChangePasswordForm
