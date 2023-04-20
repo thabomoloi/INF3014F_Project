@@ -4,9 +4,6 @@ from .. import db
 class Address(db.Model):
     __tablename__ = 'addresses'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
-    billing = db.Column(db.Boolean, default=False)
-    delivery = db.Column(db.Boolean, default=False)
     street = db.Column(db.String(64))
     suburb = db.Column(db.String(64))
     city = db.Column(db.String(64))

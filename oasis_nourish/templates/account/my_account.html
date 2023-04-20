@@ -10,11 +10,11 @@
 
         </div>
         <div class="content">
-            <div>
+            <h2 class="mb-4">My Dashboard</h2>
+            <div class="mb-4">
                 <h4 class="fw-normal border-bottom border-1 pb-2">Account Information</h4>
                 <div>
                     <div>
-                        <h5>Personal Details</h5>
                         <div>
                             <div class="d-flex align-items-end gap-5 flex-nowrap mb-2">
                                 <div>
@@ -33,17 +33,25 @@
                                 <span data-bs-toggle="modal" data-bs-target="#form-modal" id="update-password-btn"
                                       class="fw-bold" style="color: var(--theme-cyan); cursor: pointer;"><i class="fa-solid fa-lock me-1"></i> Change Password</span>
                             </div>
-
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h4 class="fw-normal border-bottom border-1 pb-2">Addresses</h4>
+                <div>
+                    <h5>Delivery Address</h5>
+                    <div>
+                        {% with address = Address.query.filter_by(user_id=current_user.id).first() %}
+                            {% if address is none %}
+                                You have no delivery address yet. 
+                            {% endif %}
+                        {% endwith %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-modal">
-      Launch static backdrop modal
-    </button>
 
     <!-- Modal -->
     <div class="modal fade" id="form-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalFormLabel" aria-hidden="true">
@@ -124,6 +132,7 @@
 
         const updateDetailsBtn = document.querySelector("span#update-details-btn");
         const updateEmailBtn = document.querySelector("span#update-email-btn");
+        const updatePassword = document.querySelector("span#update-password-btn");
         const saveChangesBtn = document.querySelector("button#save-changes-btn");
 
         const showForm = (divClass, modalTitle) => {
@@ -143,5 +152,6 @@
 
         addButtonListeners(updateDetailsBtn, ".personal-form", "Update Details");
         addButtonListeners(updateEmailBtn, ".email-form", "Change Email");
+        addButtonListeners(updatePassword, ".password-form", "Change password");
     </script>
 {% endblock %}
