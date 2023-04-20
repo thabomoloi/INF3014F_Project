@@ -16,5 +16,5 @@ main.page-content nav.navigation-menu a {
     font-weight: 600;
 }
 main.page-content nav.navigation-menu a:hover {
-    color: var(--theme-blue)
+    color: var(--theme-cyan)
 }
