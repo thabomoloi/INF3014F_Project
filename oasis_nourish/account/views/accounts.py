@@ -1,8 +1,13 @@
-from oasis_nourish.main import main
+from .. import account
 from flask_login import login_required, current_user
 
 
-@main.route('/orders')
+@account.route('/orders')
 @login_required
 def orders():
-    return "Orders";
+    return "Orders"
+
+@account.route('/cards')
+@login_required
+def cards():
+    return "Credit Cards"

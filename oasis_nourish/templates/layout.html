@@ -95,7 +95,7 @@
                                 <a href="" class="pt-2">Specials</a>
                             </div>
                             <div class="py-3 px-4 mb-5 d-flex flex-column flex-nowrap bg-white">
-                                <a href="" class="border-bottom border-1 pb-2">Orders</a>
+                                <a href="{{ url_for("account.orders") }}" class="border-bottom border-1 pb-2">Orders</a>
                                 <a href="" class="pt-2">Track My Order</a>
                             </div>
                         </nav>
@@ -132,11 +132,10 @@
                     </div>
                     <div class="px-4 py-3 border-bottom border-1 mb-2">
                         <nav class="navigation-menu d-flex flex-column mb-5">
-                            <a href="{{ url_for('account.dashboard') }}" class="border-bottom border-1 pb-2">My Account</a>
-                            <a href="" class="border-bottom border-1 py-2">Orders</a>
-                            <a href="" class="border-bottom border-1 py-2">Address Book</a>
-                            <a href="" class="border-bottom border-1 py-2">Credit Cards</a>
-                            <a href="" class="pt-2">Update Account Information</a>
+                            <a href="{{ url_for('account.details') }}" class="border-bottom border-1 pb-2">My Account</a>
+                            <a href="{{ url_for("account.orders") }}" class="border-bottom border-1 py-2">Orders</a>
+                            <a href="{{ url_for('account.address') }}" class="border-bottom border-1 py-2">Address Book</a>
+                            <a href="{{ url_for('account.cards') }}" class="border-bottom border-1 py-2">Credit Cards</a>
                         </nav>
                         <button class="btn fw-bold text-primary w-100 border-primary border border-2" onclick="window.location='{{ url_for('auth.logout') }}'">
                             <i class="fa-solid fa-right-from-bracket"></i> Logout
