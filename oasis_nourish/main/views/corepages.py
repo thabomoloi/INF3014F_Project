@@ -1,11 +1,13 @@
 from flask import render_template, request, redirect, url_for
 
 from .. import main
+from oasis_nourish.models import *
 
 
 @main.route('/')
 def home():
-    return render_template('corepages/index.html')
+    products = Product.query.all()
+    return render_template('corepages/index.html', products=products)
 
 
 @main.route('/search', methods=['GET'])
