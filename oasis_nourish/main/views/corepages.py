@@ -10,6 +10,12 @@ def home():
     return render_template('corepages/index.html', products=products)
 
 
+@main.route('/')
+def index():
+    products = Product.query.all()
+    return render_template('corepages/index.html', products=products)
+
+
 @main.route('/search', methods=['GET'])
 def search():
     if request.method == 'GET':

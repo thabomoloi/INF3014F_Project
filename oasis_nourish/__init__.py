@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap5
+from flask_uploads import configure_uploads
 
 mail = Mail()
 db = SQLAlchemy()
@@ -11,7 +12,7 @@ bootstrap = Bootstrap5()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-from .models import Role, User
+from .models import Role, User, photos
 
 
 def create_app(config_name):
@@ -22,6 +23,8 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     bootstrap.init_app(app)
+
+    configure_uploads(app, photos)
 
     # Blueprints registrations
     from .main import main as main_blueprint

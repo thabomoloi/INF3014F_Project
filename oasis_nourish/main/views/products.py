@@ -1,13 +1,25 @@
+from flask import flash
+
 from .. import main
 from oasis_nourish.models import *
 
-@main.route('/product/<id>')
-def product(id):
-    product = Product.query.filter_by(id=id).first()
+
+@main.route('/products/<cat>')
+def products(cat):
+    if cat == 'all':
+        products = Product.query.all()
+        return render_template('index.html', products=products)
+    else:
+        return "Some Cat"
+@main.route('/product/<name>')
+def product(name):
+    product = Product.query.filter_by(name=name).first()
 
     form = AddToCart()
-
-    return render_template('view-product.html', product=product, form=form)
+    if (product is None):
+        flash(f"Cannot find product {name}", category="error")
+        return redirect(url_for("main.products", cat="all"))
+    return render_template('view-product.html', product=product, form=form, title=product.name)
 
 
 @main.route('/quick-add/<id>')
@@ -18,7 +30,7 @@ def quick_add(id):
     session['cart'].mainend({'id': id, 'quantity': 1})
     session.modified = True
 
-    return redirect(url_for('index'))
+    return redirect(url_for('main.home'))
 
 
 @main.route('/add-to-cart', methods=['POST'])
@@ -34,7 +46,7 @@ def add_to_cart():
             {'id': form.id.data, 'quantity': form.quantity.data})
         session.modified = True
 
-    return redirect(url_for('index'))
+    return redirect(url_for('main.home'))
 
 
 @main.route('/cart')
@@ -44,11 +56,11 @@ def cart():
     return render_template('cart.html', products=products, grand_total=grand_total, grand_total_plus_shipping=grand_total_plus_shipping, quantity_total=quantity_total)
 
 
-@main.route('/remove-from-cart/<index>')
-def remove_from_cart(index):
-    del session['cart'][int(index)]
+@main.route('/remove-from-cart/<home>')
+def remove_from_cart(home):
+    del session['cart'][int(home)]
     session.modified = True
-    return redirect(url_for('cart'))
+    return redirect(url_for('main.cart'))
 
 
 @main.route('/checkout', methods=['GET', 'POST'])
@@ -78,7 +90,7 @@ def checkout():
         session['cart'] = []
         session.modified = True
 
-        return redirect(url_for('index'))
+        return redirect(url_for('main.home'))
 
     return render_template('checkout.html', form=form, grand_total=grand_total, grand_total_plus_shipping=grand_total_plus_shipping, quantity_total=quantity_total)
 
@@ -98,7 +110,7 @@ def add():
     form = AddProduct()
 
     if form.validate_on_submit():
-        image_url = photos.url(photos.save(form.image.data))
+        image_url = "images/" + photos.save(form.image.data)
 
         new_product = Product(name=form.name.data, price=form.price.data,
                               stock=form.stock.data, description=form.description.data, image=image_url)
@@ -106,9 +118,9 @@ def add():
         db.session.add(new_product)
         db.session.commit()
 
-        return redirect(url_for('admin'))
+        return redirect(url_for('main.admin'))
 
-    return render_template('admin/add-product.html', admin=True, form=form)
+    return render_template('admin/add-product.html', admin=True, form=form, title="Add New Product | Oasis Nourish")
 
 
 @main.route('/admin/order/<order_id>')
