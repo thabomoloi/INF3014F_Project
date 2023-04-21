@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <div>
+        <div class="mobile">
+            <div class="col-lg-12">
+                <div class="card-default">
+                    <div class="card-body bg-body-secondary">
+                        <h4 class="text-center pageTitle">Products</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block body %}
+    <div class="container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(11em, 1fr)); gap: 1em;">
+        {% for product in products %}
+            <div class="">
+                <div class="">
+                    <div>
+                        <div class="thumbnail">
+                            <a href="{{ url_for('main.product', name=product.name) }}">
+                                <img src="{{ url_for('static',filename=product.image)  }}" alt="" class="img-thumbnail border-0">
+                            </a>
+                            <div class="caption">
+                                <p class="p-0 mb-1">{{ product.name }}</p>
+                                <p class="fw-bold">
+                                    {{ "R{:,.2f}".format(product.price / 100) }}
+                                </p>
+                                <p>
+                                    {% if product.in_stock() > 0 %}
+                                    <a href="{{ url_for('main.quick_add', id=product.id) }}"
+                                       class="btn text-white btn-default col fw-bold w-100" style="background: var(--theme-cyan);">
+                                        <i class="fas fa-shopping-cart"></i> Add To Cart
+                                    </a>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endblock %}
+{% endblock %}
