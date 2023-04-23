@@ -12,7 +12,7 @@ bootstrap = Bootstrap5()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-from .models import Role, User, photos
+from .models import Role, User, photos, Product
 
 
 def create_app(config_name):
