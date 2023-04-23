@@ -1,7 +1,10 @@
+import json
+
 from flask import Flask, render_template, redirect, url_for, session
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, TextAreaField, HiddenField, SelectField
+from sqlalchemy import func
+from wtforms import StringField, IntegerField, TextAreaField, HiddenField, SelectField, FloatField
 from flask_wtf.file import FileField, FileAllowed
 import random
 from oasis_nourish import db
@@ -15,28 +18,41 @@ class Product(db.Model):
     price = db.Column(db.Integer)  # in cents
     stock = db.Column(db.Integer)
     description = db.Column(db.String(500))
+    category = db.Column(db.String(50))
+    average_ratings = db.Column(db.Float)
+    ratings_count = db.Column(db.Integer)
+    brand = db.Column(db.String(50))
     image = db.Column(db.String(100))
 
     orders = db.relationship('Order_Item', backref='product', lazy=True)
 
     def in_stock(self):
         if session:
-            item = []
+            item = {}
             try:
-                item = session['cart']
+                item = session['cart'][self.id]
             except:
                 pass
-            inde = 0
             if len(item) > 0:
-                for ind, it in enumerate(item):
-                    if it.get('id') == self.id:
-                        inde = ind
-                return self.stock - item[inde].get('quantity')
+                return self.stock - item['quantity']
             else:
                 return self.stock
         else:
             return self.stock
 
+    def json(self):
+        prod = {
+            "id": self.id,
+            "name": self.name,
+            "stock": self.stock,
+            "description": self.description,
+            "category": self.category,
+            "average_ratings": self.average_ratings,
+            "ratings_count": self.ratings_count,
+            "brand": self.brand,
+            "image": self.image
+        }
+        return json.dumps(prod)
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,10 +61,10 @@ class Order(db.Model):
     last_name = db.Column(db.String(20))
     phone_number = db.Column(db.Integer)
     email = db.Column(db.String(50))
-    address = db.Column(db.String(100))
+    street = db.Column(db.String(100))
+    suburb = db.Column(db.String(100))
     city = db.Column(db.String(100))
-    state = db.Column(db.String(20))
-    country = db.Column(db.String(20))
+    postal_code = db.Column(db.String(4))
     status = db.Column(db.String(10))
     payment_type = db.Column(db.String(10))
     items = db.relationship('Order_Item', backref='order', lazy=True)
@@ -72,6 +88,10 @@ class AddProduct(FlaskForm):
     price = IntegerField('Price')
     stock = IntegerField('Stock')
     description = TextAreaField('Description')
+    category = StringField('Category')
+    brand = StringField("Brand")
+    average_ratings = FloatField("Rating")
+    ratings_count = IntegerField("Ratings count")
     image = FileField('Image')
 
 
@@ -85,12 +105,6 @@ class Checkout(FlaskForm):
     last_name = StringField('Last Name')
     phone_number = StringField('Number')
     email = StringField('Email')
-    address = StringField('Address')
-    city = StringField('City')
-    state = SelectField('State', choices=[
-                        ('NBI', 'Nairobi'), ('KMB', 'Kiambu')])
-    country = SelectField('Country', choices=[
-                          ('CE', 'Central'), ('RV', 'Rift Valley'), ('WE', 'Western')])
     payment_type = SelectField('Payment Type', choices=[
                                ('CK', 'Check'), ('WT', 'Wire Transfer')])
 
@@ -110,17 +124,11 @@ def handle_cart():
 
         quantity_total += quantity
 
-        products.mainend({'id': product.id, 'name': product.name, 'price':  product.price,
+        products.append({'id': product.id, 'name': product.name, 'price':  product.price,
                          'image': product.image, 'quantity': quantity, 'total': total, 'index': index})
         index += 1
 
-    grand_total_plus_shipping = grand_total + 1000
+    grand_total_plus_shipping = grand_total + 10000
 
     return products, grand_total, grand_total_plus_shipping, quantity_total
-
-
-
-
-
-
 
