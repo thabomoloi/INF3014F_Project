@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <section class="container my-5">
+    <div class="row">
+            <div class="col-lg-12">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('main.index') }} ">Home</a></li>
+
+                      <li class="breadcrumb-item" aria-current="page"><a>Terms of use</a></li>
+                  </ol>
+                </nav>
+            </div>
+        </div>
+      <h1>Terms of Use</h1>
+      <p>Welcome to Oasis Nourish. By using our website and purchasing our products, you agree to comply with and be bound by the following terms and conditions of use. If you disagree with any part of these terms and conditions, please do not use our website.</p>
+      <h3>Payment and Refunds</h3>
+      <ul>
+        <li>We accept payment by credit card and PayPal.</li>
+        <li>All prices are in Rands and are subject to change without notice.</li>
+        <li>We do not offer refunds for change of mind or dislike of the product, unless there is a defect or error on our part.</li>
+      </ul>
+      <h3>Shipping</h3>
+      <ul>
+        <li>We ship only within South Africa.</li>
+        <li>Shipping costs are calculated at checkout and are the responsibility of the buyer.</li>
+        <li>We aim to ship all orders within 2 business days of purchase.</li>
+        <li>We are not responsible for any delays or damages caused by the shipping carrier.</li>
+      </ul>
+      <h3>Intellectual Property</h3>
+      <ul>
+        <li>All content on our website, including but not limited to text, graphics, logos, images, and software, is the property of Oasis Nourish and is protected by South African and international copyright laws.</li>
+        <li>You may not reproduce, distribute, or transmit any content from our website without our prior written consent.</li>
+      </ul>
+      <h3>Limitation of Liability</h3>
+      <ul>
+        <li>Oasis Nourish shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from the use or inability to use our website or products.</li>
+        <li>We make no warranties or representations about the accuracy, completeness, or suitability of the information or products on our website.</li>
+        <li>We reserve the right to modify or discontinue our website or products at any time without notice.</li>
+      </ul>
+      <p>These terms and conditions are subject to change without notice. By using our website and purchasing our products, you agree to the most recent version of these terms and conditions.</p>
+    </section>
+{% endblock %}

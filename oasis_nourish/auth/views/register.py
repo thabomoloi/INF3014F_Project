@@ -1,7 +1,7 @@
 from flask_login import current_user
 from ..forms import RegistrationForm
-from oasis_nourish import db
-from flask import render_template, redirect, url_for, flash
+from oasis_nourish import db, Role
+from flask import render_template, redirect, url_for, flash, current_app
 from oasis_nourish.models import User
 from .. import auth
 from oasis_nourish.email import send_email
@@ -22,6 +22,28 @@ def register():
             phone=form.phone.data,
             password=form.password.data
         )
+        if user.email.strip() == current_app.config['OASIS_NOURISH_ADMIN'].strip():
+            role = Role.query.filter_by(name='Administrator').first()
+            user = User(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                phone=form.phone.data,
+                password=form.password.data,
+                role_id=role.id
+            )
+        else:
+            role = Role.query.filter_by(default=True).first()
+            user = User(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                phone=form.phone.data,
+                password=form.password.data,
+                role_id=role.id
+            )
+
+
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

@@ -21,11 +21,6 @@ class User(UserMixin, db.Model):
 
     def __int__(self, **kwargs):
         super(User, self).__init__(**kwargs)
-        if self.role is None:
-            if self.email == current_app.config['OASIS_NOURISH_ADMIN']:
-                self.role = Role.query.filter_by(name='Administrator').first()
-            if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
 
     def __repr__(self):
         return '<User %r>' % self.email
@@ -63,7 +58,7 @@ class User(UserMixin, db.Model):
         return True
 
     def can(self, perm):
-        return self.role is not None and self.role.has_permissions(perm)
+        return self.role is not None and self.role.has_permission(perm)
 
     def is_administrator(self):
         return self.can(Permission.ADMIN)

@@ -8,7 +8,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h3 class="bold">ORDER {{ order.reference }} FROM {{ order.first_name + ' ' + order.last_name }}</h3>
-				<p>Products: {{ order.quantity_total() }} (&dollar;{{ order.order_total() / 100 }})</p>
+				<p>Products: {{ order.quantity_total() }} ({{ "R{:,.2f}".format(order.order_total() / 100) }})</p>
 				<p>Status: <span class="badge">{{ order.status }}</span></p>
 			</div>
 		</div>
@@ -33,17 +33,17 @@
 						<tr>
 							<td>{{ item.product_id }}</td>
 							<td>{{ item.product.name }}</td>
-							<td>&dollar;{{ item.product.price / 100 }}</td>
+							<td>{{ "R{:,.2f}".format(item.product.price / 100) }}</td>
 							<td>{{ item.quantity }}</td>
-							<th>&dollar;{{ item.product.price * item.quantity / 100 }}</th>
+							<th>{{ "R{:,.2f}".format(item.product.price * item.quantity / 100) }}</th>
 						</tr>
 						{% endfor %}
 						<tr>
 							<td>0</td>
 							<td>Flat Rate Shipping</td>
-							<td>&dollar;10.00</td>
+							<td>R100.00</td>
 							<td>1</td>
-							<th>&dollar;10.00</th>
+							<th>R100.00</th>
 						</tr>
 					</tbody>
 					<tfoot>

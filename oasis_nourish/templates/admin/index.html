@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Admin Dashboard | KU Tuck Shop Fashion Store{% endblock %}
+{% block title %}Admin Dashboard {% endblock %}
 
 {% block body %}
 <div class="row pad">
@@ -42,7 +42,7 @@
 							<td>{{ order.id }}</td>
 							<td><a href="{{ url_for('order', order_id=order.id) }}">{{ order.reference }}</a></td>
 							<td>{{ order.first_name + ' ' + order.last_name }}</td>
-							<td>&dollar;{{ order.order_total() / 100 }}</td>
+							<td>{{ "R{:,.2f}".format(order.order_total() / 100) }}</td>
 							<td><span class="badge">{{ order.status }}</span></td>
 						</tr>
 						{% endfor %}
@@ -72,7 +72,7 @@
 						<tr>
 							<td>{{ product.id }}</td>
 							<td>{{ product.name }}</td>
-							<td>&dollar;{{ product.price / 100 }}</td>
+							<td>{{ "R{:,.2f}".format(product.price / 100) }}</td>
 							<td>{{ product.stock }} units</td>
 						</tr>
 						{% endfor %}

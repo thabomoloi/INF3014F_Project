@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Placed</title>
+</head>
+<body>
+    <div class="col-lg-8">
+        <h3 class="bold">
+            Order Details
+        </h3>
+
+        <div class="card card-primary">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead style="background-color: var(--theme-cyan)">
+                            <tr class="text-white">
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th class="d-none d-md-table-cell">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products">
+                            {% for product in products %}
+                                <tr>
+                                    <td class="container-fluid">
+                                        <div class="d-flex flex-row flex-nowrap gap-2">
+                                            <div class="fw-bold col-8 d-flex flex-column justify-content-between">
+                                                <h5>{{ product['name'] }}</h5>
+
+                                                <div class="d-flex justify-content-end">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{ "R{:,.2f}".format(product['price'] / 100) }}
+                                    </td>
+                                    <td>
+                                        {{ product['quantity'] }}
+                                    </td>
+                                    <td class="d-none d-md-table-cell">
+                                        {{ "R{:,.2f}".format(product['total'] / 100) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>
+        Thank you for testing our website
+    </p>
+    <p>
+        Kind regards<br>
+        The Oasis Nourish Team
+    </p>
+</body>
+</html>

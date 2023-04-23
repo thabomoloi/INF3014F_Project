@@ -1,0 +1,10 @@
+Order Details
+
+{% for product in products %}
+item: {{ product['name'] }}, price: {{ "R{:,.2f}".format(product['price'] / 100) }}, quantity: {{ product['quantity'] }}, subtotal: {{ "R{:,.2f}".format(product['total'] / 100) }}
+{% endfor %}
+
+Thank you for testing our website
+
+Kind regards<br>
+The Oasis Nourish Team

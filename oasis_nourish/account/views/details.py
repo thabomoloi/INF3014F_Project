@@ -4,12 +4,14 @@ from flask import render_template, redirect, url_for, flash
 from .. import account
 from ..forms import EditPersonalDetailsForm, EditEmailForm, ChangePasswordForm
 from oasis_nourish import db
-from oasis_nourish.models import Address
+from oasis_nourish.models import Address, Product
 
 
 @account.route("/details", methods=['GET', 'POST'])
 @login_required
 def details():
+    categories = db.session.query(Product.category.distinct()).all()
+
     personal_details_form = EditPersonalDetailsForm()
     email_form = EditEmailForm()
     password_form = ChangePasswordForm()
@@ -44,4 +46,4 @@ def details():
                            personal_form=personal_details_form,
                            email_form=email_form,
                            password_form=password_form,
-                           Address=Address)
+                           Address=Address, categories=categories)

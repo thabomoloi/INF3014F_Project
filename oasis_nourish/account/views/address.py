@@ -1,9 +1,9 @@
-from flask import render_template
+from flask import render_template, request, redirect
 from flask_login import login_required, current_user
 
 from .. import account
 from ..forms import AddressForm
-from oasis_nourish.models import Address
+from oasis_nourish.models import Address, Product
 from oasis_nourish import db
 
 @account.route("/address", methods=["GET", "POST"])
@@ -21,7 +21,10 @@ def address():
         db.session.add(new_address)
         db.session.commit()
 
+        return redirect(request.referrer)
+
     addr = Address.query.filter_by(user_id=current_user.id).first()
     mode = "add" if addr is None else "view"
+    categories = db.session.query(Product.category.distinct()).all()
 
-    return render_template("account/address.html", mode=mode, address_form=form, address=addr)
+    return render_template("account/address.html", mode=mode, address_form=form, address=addr, categories=categories)
