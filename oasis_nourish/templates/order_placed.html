@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Order Placed</title>
-</head>
-<body>
-    <div class="col-lg-8">
-        <h3 class="bold">
-            Order Details
-        </h3>
-
-        <div class="card card-primary">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead style="background-color: var(--theme-cyan)">
-                            <tr class="text-white">
-                                <th>Item</th>
-                                <th>Price</th>
-                                <th>Qty</th>
-                                <th class="d-none d-md-table-cell">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="products">
-                            {% for product in products %}
-                                <tr>
-                                    <td class="container-fluid">
-                                        <div class="d-flex flex-row flex-nowrap gap-2">
-                                            <div class="fw-bold col-8 d-flex flex-column justify-content-between">
-                                                <h5>{{ product['name'] }}</h5>
-
-                                                <div class="d-flex justify-content-end">
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ "R{:,.2f}".format(product['price'] / 100) }}
-                                    </td>
-                                    <td>
-                                        {{ product['quantity'] }}
-                                    </td>
-                                    <td class="d-none d-md-table-cell">
-                                        {{ "R{:,.2f}".format(product['total'] / 100) }}
-                                    </td>
+    <head>
+        <meta charset="UTF-8">
+        <title>Order Placed</title>
+    </head>
+    <body class="width: 100%">
+        <div class="col-lg-8" style="width: 100%;">
+            <p>Dear {{ current_user.first_name }}</p>
+            <p>Your order has been placed successfully.</p>
+            <h3>
+                <span>Order Details</span><span style="float: right">{{ "R{:,.2f}".format(grand_total / 100) }}</span>
+            </h3>
+            <div class="card card-primary" style="width: 100%">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" style="border-collapse: collapse; width: 100%">
+                            <thead style="background-color: #0e7490">
+                                <tr style="color: white">
+                                    <th style="border: 1px solid #ddd;  padding: 8px; text-align: left;">Item</th>
+                                    <th style="border: 1px solid #ddd;  padding: 8px; text-align: left;">Price</th>
+                                    <th style="border: 1px solid #ddd;  padding: 8px; text-align: left;">Qty</th>
+                                    <th style="border: 1px solid #ddd;  padding: 8px; text-align: left;" class="d-none d-md-table-cell">Subtotal</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody id="products">
+                                {% for product in products %}
+                                    {% if loop.index % 2 == 0 %}
+                                        <tr style="border: 1px solid #ddd; background-color: #f2f2f2;">
+                                            <td class="container-fluid" style="padding: 8px;">
+                                                {{ product['name'] }}
+                                            </td>
+                                            <td style="padding: 8px;">
+                                                {{ "R{:,.2f}".format(product['price'] / 100) }}
+                                            </td>
+                                            <td style="padding: 8px;">
+                                                {{ product['quantity'] }}
+                                            </td>
+                                            <td class="d-none d-md-table-cell" style="padding: 8px;">
+                                                {{ "R{:,.2f}".format(product['total'] / 100) }}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr style="border: 1px solid #ddd;">
+                                            <td class="container-fluid" style="padding: 8px;">
+                                                {{ product['name'] }}
+                                            </td>
+                                            <td style="padding: 8px;">
+                                                {{ "R{:,.2f}".format(product['price'] / 100) }}
+                                            </td>
+                                            <td style="padding: 8px;">
+                                                {{ product['quantity'] }}
+                                            </td>
+                                            <td class="d-none d-md-table-cell" style="padding: 8px;">
+                                                {{ "R{:,.2f}".format(product['total'] / 100) }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            <h3 style="margin-top: 1em;">Delivery Address:</h3>
+            {% with address=current_user.addresses[0 ]%}
+                <div>
+                    {{ address.street }}<br>
+                    {{ address.suburb }}<br>
+                    {{ address.city }}<br>
+                    {{ address.postal_code }}<br>
+                </div>
+            {% endwith %}
         </div>
-    </div>
-    <p>
-        Thank you for testing our website
-    </p>
-    <p>
-        Kind regards<br>
-        The Oasis Nourish Team
-    </p>
-</body>
+        <p>
+            Thank you for shopping with us!!
+        </p>
+        <p>
+            Kind regards<br>
+            The Oasis Nourish Team
+        </p>
+    </body>
 </html>
