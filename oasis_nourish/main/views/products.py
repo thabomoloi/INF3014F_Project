@@ -129,9 +129,10 @@ def checkout():
         db.session.add(order)
         db.session.commit()
 
-        send_email(current_user.email, "Your order has been placed successfully", "order_placed", products=products)
+        send_email(current_user.email, "Your order has been placed successfully", "order_placed", products=products, grand_total=grand_total)
         session['cart'] = []
         session.modified = True
+        flash("Your order has been placed successfully")
 
         return redirect(url_for('main.home'))
     categories = db.session.query(Product.category.distinct()).all()
