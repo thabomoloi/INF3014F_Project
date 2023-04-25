@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from oasis_nourish import create_app, db, User, Role, Product
 
 
-if os.environ.get("IS_HEROKU")
+if os.environ.get("IS_HEROKU"):
     app = create_app("production")
 else:
     app = create_app(os.getenv('FLASK_CONFIG') or 'default')
