@@ -10,9 +10,6 @@ if os.environ.get("IS_HEROKU"):
 
 migrate = Migrate(app, db)
 
-from populate_products import populate
-populate(db, Product)
-
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
