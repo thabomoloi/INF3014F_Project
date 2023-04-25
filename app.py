@@ -1,10 +1,17 @@
 import os
 from flask_migrate import Migrate
-from oasis_nourish import create_app, db, User, Role
+from oasis_nourish import create_app, db, User, Role, Product
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+
+if os.environ.get("IS_HEROKU"):
+    app = create_app("production")
+
+
 migrate = Migrate(app, db)
 
+from populate_products import populate
+populate(db, Product)
 
 @app.shell_context_processor
 def make_shell_context():
