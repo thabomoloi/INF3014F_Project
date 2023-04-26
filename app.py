@@ -5,12 +5,7 @@ from flask_migrate import Migrate
 from oasis_nourish import create_app, db, User, Role, Product
 
 
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return "<h1>Time</h1>"
+app = create_app("production" if os.environ.get("IS_HEROKU") else "default")
 
 @app.shell_context_processor
 def make_shell_context():
