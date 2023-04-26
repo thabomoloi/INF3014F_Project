@@ -13,7 +13,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
 from .models import Role, User, photos, Product
-
+from populate_products import populate
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -26,6 +26,8 @@ def create_app(config_name):
         bootstrap.init_app(app)
 
         configure_uploads(app, photos)
+        Role.insert_roles()
+        populate(db=db, Product=Product)
 
         # Blueprints registrations
         from .main import main as main_blueprint
@@ -36,6 +38,7 @@ def create_app(config_name):
 
         from .account import account as account_blueprint
         app.register_blueprint(account_blueprint, url_prefix='/account')
+
 
     return app
 
