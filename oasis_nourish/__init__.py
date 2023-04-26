@@ -27,6 +27,7 @@ def create_app(config_name):
 
         configure_uploads(app, photos)
         Role.insert_roles()
+        db.create_all()
         populate(db=db, Product=Product)
 
         # Blueprints registrations
