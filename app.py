@@ -1,14 +1,16 @@
 import os
+
+from flask import Flask
 from flask_migrate import Migrate
 from oasis_nourish import create_app, db, User, Role, Product
 
 
-if os.environ.get("IS_HEROKU"):
-    app = create_app("production")
-else:
-    app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
-migrate = Migrate(app, db)
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "<h1>Time</h1>"
 
 @app.shell_context_processor
 def make_shell_context():
