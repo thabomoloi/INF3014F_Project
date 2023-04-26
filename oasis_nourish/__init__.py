@@ -17,27 +17,25 @@ from .models import Role, User, photos, Product
 
 def create_app(config_name):
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
-    mail.init_app(app)
-    db.init_app(app)
-    login_manager.init_app(app)
-    bootstrap.init_app(app)
+    with app.app_context():
+        app.config.from_object(config[config_name])
+        config[config_name].init_app(app)
+        mail.init_app(app)
+        db.init_app(app)
+        login_manager.init_app(app)
+        bootstrap.init_app(app)
 
-    configure_uploads(app, photos)
+        configure_uploads(app, photos)
 
-    # Blueprints registrations
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+        # Blueprints registrations
+        from .main import main as main_blueprint
+        app.register_blueprint(main_blueprint)
 
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+        from .auth import auth as auth_blueprint
+        app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
-    from .account import account as account_blueprint
-    app.register_blueprint(account_blueprint, url_prefix='/account')
-
-    from populate_products import populate
-    populate(db, Product)
+        from .account import account as account_blueprint
+        app.register_blueprint(account_blueprint, url_prefix='/account')
 
     return app
 
