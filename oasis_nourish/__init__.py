@@ -30,7 +30,8 @@ def create_app(config_name):
         count = Product.query.count()
         if count == 0:
             populate(db=db, Product=Product)
-        Role.insert_roles()
+        if Role.query.count() == 0:
+            Role.insert_roles()
 
         # Blueprints registrations
         from .main import main as main_blueprint
