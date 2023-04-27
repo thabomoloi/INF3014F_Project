@@ -1,0 +1,11 @@
+<p>Dear {{ user.first_name }},</p>
+<p>Thank you for registering with Oasis Nourish. We are excited to have you as a member of our community. To ensure the security of your account, we require you to confirm your email address.</p>
+<p>To confirm your email address, please click on the following link or copy and paste it into your web browser:</p>
+<p style="text-align: center;"><a href="{{ url_for('confirm', token=token, _external=True) }}">Confirm Email Address</a></p>
+<p>By confirming your email address, you will gain full access to all the features and benefits that come with being a registered member of our site.</p>
+<p>If you did not create an account on our website, please disregard this email.</p>
+<p>Thank you for your cooperation.</p>
+<p>
+    Best regards,<br>
+    The Oasis Nourish Team
+</p>

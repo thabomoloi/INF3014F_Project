@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% from 'bootstrap5/form.html' import render_form, render_field %}
+
+{% block page_content %}
+<div>
+    <div class="details-content container py-3">
+        <div class="d-block d-md-flex flex-nowrap gap-5">
+            <div class="side-detail-menu d-none d-md-block py-1">
+                <nav class="list-group">
+                    <div class="list-group">
+                        <a href="{{ url_for('details') }}" class="list-group-item list-group-item-action" >
+                            My Account
+                        </a>
+                        <a href="{{ url_for('address') }}" class="list-group-item list-group-item-action text-white" style="background: var(--theme-green)" aria-current="true">
+                            Address Book
+                        </a>
+                        <a href="{{ url_for('orders') }}" class="list-group-item list-group-item-action">Orders</a>
+                        <a href="{{ url_for('cards') }}" class="list-group-item list-group-item-action">Credit Cards</a>
+                    </div>
+                </nav>
+            </div>
+            <div class="content">
+                <h2 class="mb-4">Addresses</h2>
+                {% if mode=="add" %}
+                    <div class="mb-4">
+                        <h4 class="fw-normal border-bottom border-1 pb-2">Add Delivery Address</h4>
+                        <div>
+                            <form class="bg-white" method="post">
+                                {{ address_form.csrf_token() }}
+
+                                <div class="d-flex flex-nowrap flex-column">
+                                    <div>
+                                        {{ render_field(address_form.street) }}
+                                    </div>
+                                    <div>
+                                        {{ render_field(address_form.suburb) }}
+                                    </div>
+                                    <div>
+                                        {{ render_field(address_form.city) }}
+                                    </div>
+                                    <div>
+                                        {{ render_field(address_form.postal_code) }}
+                                    </div>
+                                    <div>
+                                        {{ render_field(address_form.submit) }}
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="mb-4">
+                        <h4 class="fw-normal border-bottom border-1 pb-2">Delivery Address</h4>
+                        <div>
+                            {{ address.street }}<br>
+                            {{ address.suburb }}<br>
+                            {{ address.city }}<br>
+                            {{ address.postal_code }}<br>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
