@@ -14,7 +14,7 @@ class Config:
     MAIL_SENDER = f'Oasis Nourish Admin <{MAIL_USERNAME}>'
     OASIS_NOURISH_ADMIN = os.environ.get('OASIS_NOURISH_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOADED_PHOTOS_DEST = 'oasis_nourish/static/images'
+    UPLOADED_PHOTOS_DEST = 'static/images'
     @staticmethod
     def init_app(app):
         pass

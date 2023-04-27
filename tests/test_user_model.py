@@ -1,5 +1,5 @@
 import unittest
-from oasis_nourish.models import User, AnonymousUser, Permission
+from models import User, AnonymousUser, Permission
 
 
 class UserModelTestCase(unittest.TestCase):

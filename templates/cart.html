@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 mt-4 mb-2">
+                <h3 class="bold">
+                    Shopping Cart
+                </h3>
+
+                <div class="card card-primary">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead style="background-color: var(--theme-cyan)">
+                                    <tr class="text-white">
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th class="d-none d-md-table-cell">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products">
+                                    {% for product in products %}
+                                        <tr>
+                                            <td class="container-fluid">
+                                                <div class="d-flex flex-row flex-nowrap gap-2">
+                                                    <div class="col-4">
+                                                        <img class="img-thumbnail border-0" src="{{ url_for('static', filename=product['image']) }}" alt="">
+                                                    </div>
+                                                    <div class="fw-bold col-8 d-flex flex-column justify-content-between">
+                                                        <h5>{{ product['name'] }}</h5>
+
+                                                        <div class="d-flex justify-content-end">
+                                                            <a href="{{ url_for('remove_from_cart', index=product['index']) }}">
+                                                                <button type="button" class="btn btn-danger btn-xs rounded-5">
+                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                </button>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{ "R{:,.2f}".format(product['price'] / 100) }}
+                                            </td>
+                                            <td>
+                                                {{ product['quantity'] }}
+                                            </td>
+                                            <td class="d-none d-md-table-cell">
+                                                {{ "R{:,.2f}".format(product['total'] / 100) }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mt-4 mb-2">
+                <h3 class="bold">
+                    Summary
+                </h3>
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        Current Cart Value
+                    </div>
+                    <ul class="list-group rounded-0">
+                        <li class="list-group-item">
+                            <p>
+                                {{ quantity_total }} Items <strong class="float-end">{{ "R{:,.2f}".format(grand_total / 100) }}</strong>
+                            </p>
+                            <p>
+                                Delivery <strong class="float-end">R100</strong>
+                            </p>
+                        </li>
+                        <li class="list-group-item">
+                            <p><span>Total</span> <strong class="float-end">{{ "R{:,.2f}".format(grand_total_plus_shipping / 100) }}</strong></p>
+                        </li>
+                    </ul>
+                    <div class="card-footer">
+                        {%if quantity_total>0%}
+                        <a href="{{ url_for('checkout') }}" class="btn text-white fw-bold" style="background: var(--theme-green)">
+                            Checkout <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                        {%else%}
+                        <a href="#" class="btn text-white fw-bold" style="background: var(--theme-green)">
+                            Checkout <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                        {%endif%}
+                        <a href="{{ url_for('products') }}" class="btn btn-link float-end text-white fw-bold" style="background: var(--theme-cyan)">
+                            <i class="fa-solid fa-chevron-left"></i> Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
