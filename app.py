@@ -37,7 +37,7 @@ from populate_products import populate
 def create_tables():
     db.create_all()
     Role.insert_roles()
-    if Product.query.count == 0:
+    if Product.query.count() == 0:
         populate(db, Product)
 
 
