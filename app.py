@@ -328,6 +328,8 @@ def product(name):
 @app.route('/quick-add/<id>')
 def quick_add(id):
     add_item_to_cart(id=id)
+    prod = Product.query.filter_by(id=id).first()
+    flash(f"You have added {prod.name} to cart.")
     return redirect(request.referrer)
 
 
@@ -362,6 +364,8 @@ def add_to_cart():
 
     if form.validate_on_submit():
         add_item_to_cart(id=form.id.data, quantity=form.quantity.data)
+        prod = Product.query.filter_by(id=form.id.data).first()
+        flash(f"You have added {prod.name} to cart.")
 
     return redirect(url_for('products'))
 
